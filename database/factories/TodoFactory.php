@@ -17,7 +17,7 @@ class TodoFactory extends Factory
     public function definition()
     {
         return [
-            'text' => fake()->realTextBetween(),
+            'text' => $this->faker->realTextBetween(),
         ];
     }
 }

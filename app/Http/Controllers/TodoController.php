@@ -2,28 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TodoCreateRequest;
 use App\Http\Resources\TodoResource;
 use App\Models\Todo;
-use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class TodoController extends Controller
 {
-    public function index()
+    public function index(): JsonResource
     {
         $todos = Todo::latest()->get();
 
         return TodoResource::collection($todos);
     }
 
-    public function store(Request $request)
+    public function store(TodoCreateRequest $request): JsonResource
     {
-        $todo = new Todo();
-        $todo->text = $request->input('text');
-        $todo->save();
+        $todo = Todo::create($request->validated());
 
-        return response()->json([
-            'message' => 'Todo successfully created.',
-        ]);
+        $todo->refresh();
+
+        return new TodoResource($todo);
     }
 
     public function destroy(Todo $todo)

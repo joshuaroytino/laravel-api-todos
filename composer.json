@@ -52,7 +52,7 @@
             "./vendor/bin/pint"
         ],
         "test": [
-            "./vendor/bin/phpunit --coverage-html tests/reports/coverage/"
+            "php artisan test --coverage-html tests/reports/coverage"
         ]
     },
     "extra": {

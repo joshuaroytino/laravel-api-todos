@@ -10,7 +10,7 @@ class TodoGetItemsTest extends TestCase
 {
     public function testShouldGetListOfTodos()
     {
-        Todo::factory()->count(5)->create();
+        Todo::factory(5)->create();
 
         $todos = Todo::latest()->get();
         $todosResource = TodoResource::collection($todos);
