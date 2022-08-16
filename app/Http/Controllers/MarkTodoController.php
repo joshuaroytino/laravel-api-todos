@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Todo;
-use Illuminate\Http\Request;
 
 class MarkTodoController extends Controller
 {
@@ -13,7 +12,7 @@ class MarkTodoController extends Controller
         $todo->save();
 
         return response()->json([
-            'message' => 'Todo has been marked as done.'
+            'message' => 'Todo has been marked as done.',
         ]);
     }
 }

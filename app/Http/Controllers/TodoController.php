@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class TodoController extends Controller
 {
-
     public function index()
     {
         return Todo::latest()->get();
@@ -20,7 +19,7 @@ class TodoController extends Controller
         $todo->save();
 
         return response()->json([
-            'message' => 'Todo successfully created.'
+            'message' => 'Todo successfully created.',
         ]);
     }
 
@@ -29,8 +28,7 @@ class TodoController extends Controller
         $todo->deleteOrFail();
 
         return response()->json([
-            'message' => 'Todo successfully deleted.'
+            'message' => 'Todo successfully deleted.',
         ]);
     }
-
 }

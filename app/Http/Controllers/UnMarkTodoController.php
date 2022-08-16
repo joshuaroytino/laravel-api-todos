@@ -12,7 +12,7 @@ class UnMarkTodoController extends Controller
         $todo->save();
 
         return response()->json([
-            'message' => 'Todo has been unmarked as done.'
+            'message' => 'Todo has been unmarked as done.',
         ]);
     }
 }
