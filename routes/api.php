@@ -18,6 +18,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('todos', [TodoController::class, 'index'])->name('todos.index');
 Route::post('todo', [TodoController::class, 'store'])->name('todo.store');
-Route::delete('todo/{todo}', [TodoController::class, 'destroy']);
+Route::delete('todo/{todo}', [TodoController::class, 'destroy'])->name('todo.destroy');
 Route::post('todo/mark/{todo}', MarkTodoController::class);
 Route::post('todo/unmark/{todo}', UnMarkTodoController::class);

@@ -25,12 +25,13 @@ class TodoController extends Controller
         return new TodoResource($todo);
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function destroy(Todo $todo)
     {
         $todo->deleteOrFail();
 
-        return response()->json([
-            'message' => 'Todo successfully deleted.',
-        ]);
+        return response()->noContent();
     }
 }
