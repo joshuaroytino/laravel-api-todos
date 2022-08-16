@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TodoResource;
 use App\Models\Todo;
 
 class MarkTodoController extends Controller
@@ -10,8 +11,9 @@ class MarkTodoController extends Controller
     {
         $todo->done = true;
         $todo->save();
+        $todo->refresh();
 
-        return response()->json([
+        return (new TodoResource($todo))->additional([
             'message' => 'Todo has been marked as done.',
         ]);
     }

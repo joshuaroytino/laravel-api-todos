@@ -20,4 +20,22 @@ class TodoFactory extends Factory
             'text' => $this->faker->realTextBetween(),
         ];
     }
+
+    public function done(): TodoFactory
+    {
+        return $this->state(function (array $attribute) {
+            return [
+                'done' => 1,
+            ];
+        });
+    }
+
+    public function notDone(): TodoFactory
+    {
+        return $this->state(function (array $attribute) {
+            return [
+                'done' => 0,
+            ];
+        });
+    }
 }
