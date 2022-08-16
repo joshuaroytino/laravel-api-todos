@@ -49,7 +49,10 @@
             "@php artisan key:generate --ansi"
         ],
         "pint": [
-            "@php ./vendor/bin/pint"
+            "./vendor/bin/pint"
+        ],
+        "test": [
+            "./vendor/bin/phpunit --coverage-html tests/reports/coverage/"
         ]
     },
     "extra": {

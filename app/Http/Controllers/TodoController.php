@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TodoResource;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,9 @@ class TodoController extends Controller
 {
     public function index()
     {
-        return Todo::latest()->get();
+        $todos = Todo::latest()->get();
+
+        return TodoResource::collection($todos);
     }
 
     public function store(Request $request)
