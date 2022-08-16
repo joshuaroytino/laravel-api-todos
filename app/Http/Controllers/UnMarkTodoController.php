@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TodoResource;
 use App\Models\Todo;
 
 class UnMarkTodoController extends Controller
@@ -10,8 +11,9 @@ class UnMarkTodoController extends Controller
     {
         $todo->done = false;
         $todo->save();
+        $todo->refresh();
 
-        return response()->json([
+        return (new TodoResource($todo))->additional([
             'message' => 'Todo has been unmarked as done.',
         ]);
     }
