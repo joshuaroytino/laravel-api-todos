@@ -11,14 +11,28 @@ class TodoController extends Controller
 {
     public function index(): JsonResource
     {
-        $todos = Todo::latest()->get();
+        $todos = Todo::query()
+            ->where(['user_id' => \Auth::user()->id])
+            ->get();
 
         return TodoResource::collection($todos);
     }
 
+    /**
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function store(TodoCreateRequest $request): JsonResource
     {
-        $todo = Todo::create($request->validated());
+        $this->authorize('create', Todo::class);
+
+        $todo = new Todo();
+        $todo->fill(array_merge(
+            $request->validated(),
+            [
+                'user_id' => \Auth::user()->id,
+            ])
+        );
+        $todo->save();
 
         $todo->refresh();
 
@@ -30,6 +44,8 @@ class TodoController extends Controller
      */
     public function destroy(Todo $todo)
     {
+        $this->authorize('delete', $todo);
+
         $todo->deleteOrFail();
 
         return response()->noContent();

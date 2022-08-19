@@ -4,13 +4,19 @@ namespace Tests\Feature;
 
 use App\Http\Resources\TodoResource;
 use App\Models\Todo;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class TodoUnmarkAsDoneTest extends TestCase
 {
     public function testShouldUnmarkTodoAsDone()
     {
-        $todo = Todo::factory()->done()->createOne();
+        $owner = $this->createOwnerUser();
+        Sanctum::actingAs($owner);
+
+        $todo = Todo::factory()->done()->createOne([
+            'user_id' => $owner->id,
+        ]);
 
         $this->assertEquals(1, $todo->done);
 
@@ -29,9 +35,39 @@ class TodoUnmarkAsDoneTest extends TestCase
         $this->assertEqualsCanonicalizing($expectedResponse, $actualResponse);
     }
 
+    public function testCannotUnmarkTodoAsDoneIfNotOwned()
+    {
+        $owner = $this->createOwnerUser();
+        $todo = Todo::factory()->createOne([
+            'user_id' => $owner->id,
+        ]);
+
+        $nonOwner = $this->createNonOwnerUser();
+        Sanctum::actingAs($nonOwner);
+
+        $response = $this->postJson(route('todo.unmark.done', $todo));
+        $response->assertNotFound();
+    }
+
+    public function testOnlyAuthorizedUserCanAccess()
+    {
+        $owner = $this->createOwnerUser();
+        $todo = Todo::factory()->createOne([
+            'user_id' => $owner->id,
+        ]);
+
+        $response = $this->postJson(route('todo.unmark.done', $todo));
+        $response->assertUnauthorized();
+    }
+
     public function testReturnNotFoundIfTodoDoesNotExist()
     {
-        $todo = Todo::factory()->done()->createOne();
+        $owner = $this->createOwnerUser();
+        Sanctum::actingAs($owner);
+
+        $todo = Todo::factory()->done()->createOne([
+            'user_id' => $owner->id,
+        ]);
         $todo->delete();
 
         $response = $this->postJson(route('todo.unmark.done', $todo));

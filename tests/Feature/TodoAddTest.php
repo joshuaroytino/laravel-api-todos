@@ -13,6 +13,8 @@ class TodoAddTest extends TestCase
 
     public function testShouldBeAbleToAddTodo()
     {
+        $this->fakeSanctumUser();
+
         $todoData = Todo::factory()->makeOne()->getAttributes();
 
         $response = $this->postJson(route('todo.store'), $todoData);
@@ -32,6 +34,8 @@ class TodoAddTest extends TestCase
      */
     public function testShouldValidateTodoData($getData)
     {
+        $this->fakeSanctumUser();
+
         [$field, $payload] = $getData();
 
         $response = $this->postJson(route('todo.store'), $payload);
@@ -77,7 +81,14 @@ class TodoAddTest extends TestCase
         ];
     }
 
-    public function validData(): array
+    public function testCannotAddTodoIfUnauthenticated()
+    {
+        $response = $this->postJson(route('todo.store'));
+
+        $response->assertUnauthorized();
+    }
+
+    protected function validData(): array
     {
         return Todo::factory()->makeOne()->getAttributes();
     }
