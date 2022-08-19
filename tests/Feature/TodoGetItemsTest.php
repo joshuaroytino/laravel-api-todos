@@ -42,7 +42,10 @@ class TodoGetItemsTest extends TestCase
         $nonOwner = $this->createNonOwnerUser();
         Sanctum::actingAs($nonOwner);
 
-        $todos = Todo::query()->where(['user_id' => $nonOwner->id])->get();
+        $todos = Todo::query()
+            ->where(['user_id' => $nonOwner->id])
+            ->latest()
+            ->get();
         $todosResource = TodoResource::collection($todos);
         $expectedResponse = $todosResource->response()->getData(true);
 

@@ -13,6 +13,7 @@ class TodoController extends Controller
     {
         $todos = Todo::query()
             ->where(['user_id' => \Auth::user()->id])
+            ->latest()
             ->get();
 
         return TodoResource::collection($todos);
