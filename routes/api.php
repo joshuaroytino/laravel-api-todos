@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MarkTodoController;
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UnMarkTodoController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,5 @@ Route::post('todo', [TodoController::class, 'store'])->name('todo.store')->middl
 Route::delete('todo/{todo}', [TodoController::class, 'destroy'])->name('todo.destroy')->middleware('auth:sanctum');
 Route::post('todo/mark/{todo}', MarkTodoController::class)->name('todo.mark.done')->middleware('auth:sanctum');
 Route::post('todo/unmark/{todo}', UnMarkTodoController::class)->name('todo.unmark.done')->middleware('auth:sanctum');
+
+Route::post('token', TokenController::class)->name('token');
