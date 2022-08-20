@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\LoginRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
 
@@ -16,7 +16,7 @@ class TokenController extends Controller
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        $expirationAt = !is_null(config('sanctum.expiration')) ? Carbon::now()->addMinutes(config('sanctum.expiration')) : null;
+        $expirationAt = ! is_null(config('sanctum.expiration')) ? Carbon::now()->addMinutes(config('sanctum.expiration')) : null;
 
         $token = $request->user()->createToken('access_token', ['*'], $expirationAt)->plainTextToken;
 
