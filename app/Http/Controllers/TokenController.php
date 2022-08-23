@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\UserResource;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
 
@@ -23,8 +24,10 @@ class TokenController extends Controller
         $cookie = cookie('access_token', $token, config('sanctum.expiration'));
 
         return response()->json([
-            'user' => \Auth::user(),
-            'token' => $token,
+            'data' => [
+                'user' => UserResource::make(\Auth::user()),
+                'token' => $token,
+            ],
         ])->withCookie($cookie);
     }
 }
