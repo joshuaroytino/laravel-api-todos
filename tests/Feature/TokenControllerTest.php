@@ -41,6 +41,6 @@ class TokenControllerTest extends TestCase
         ]);
 
         $response->assertUnauthorized();
-        $response->assertJson(['message' => 'Invalid credentials']);
+        $response->assertJson(['data' => ['message' => 'Invalid credentials']]);
     }
 }
