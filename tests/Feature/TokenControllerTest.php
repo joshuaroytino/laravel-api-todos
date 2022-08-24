@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Http\Resources\UserResource;
-use App\Models\User;
 use Tests\TestCase;
 
 class TokenControllerTest extends TestCase
@@ -64,26 +63,26 @@ class TokenControllerTest extends TestCase
                 function () {
                     return [
                         'email',
-                        array_merge($this->validData(), ['email' => 'not-an-email'])
+                        array_merge($this->validData(), ['email' => 'not-an-email']),
                     ];
-                }
+                },
             ],
             'it fails if email is empty' => [
                 function () {
                     return [
                         'email',
-                        array_merge($this->validData(), ['email' => ''])
+                        array_merge($this->validData(), ['email' => '']),
                     ];
-                }
+                },
             ],
             'it fails if password is empty' => [
                 function () {
                     return [
                         'password',
-                        array_merge($this->validData(), ['password' => ''])
+                        array_merge($this->validData(), ['password' => '']),
                     ];
-                }
-            ]
+                },
+            ],
         ];
     }
 
