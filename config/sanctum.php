@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'expiration' => env('SANCTUM_TOKEN_EXPIRATION', null),
+    'expiration' => env('SANCTUM_TOKEN_EXPIRATION', 60 * 24 * 14),
 
     /*
     |--------------------------------------------------------------------------
@@ -64,4 +64,5 @@ return [
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
+    'cookie_lifetime' => env('SANCTUM_COOKIE_EXPIRATION', 60 * 24 * 365 * 100),
 ];
