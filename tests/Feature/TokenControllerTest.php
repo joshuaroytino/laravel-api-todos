@@ -3,21 +3,22 @@
 namespace Tests\Feature;
 
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use Tests\TestCase;
 
 class TokenControllerTest extends TestCase
 {
     public function testShouldReturnToken()
     {
-        $owner = $this->createOwnerUser();
+        $user = User::factory()->createOne();
         $response = $this->postJson(route('token'), [
-            'email' => $owner->email,
+            'email' => $user->email,
             'password' => 'password',
         ]);
 
         $response->assertOk();
 
-        $this->assertEqualsCanonicalizing(UserResource::make($owner)->response()->getData(true)['data'], $response->json('data.user'));
+        $this->assertEqualsCanonicalizing(UserResource::make($user)->response()->getData(true)['data'], $response->json('data.user'));
 
         $response->assertJsonStructure([
             'data' => [
@@ -41,7 +42,19 @@ class TokenControllerTest extends TestCase
         ]);
 
         $response->assertUnauthorized();
-        $response->assertJson(['data' => ['message' => 'Invalid credentials']]);
+        $response->assertJson(['message' => __('auth.failed')]);
+    }
+
+    public function testShouldNotBeAbleToLoginIfUnverified()
+    {
+        $user = User::factory()->unverified()->createOne();
+
+        $this->postJson(route('token'), [
+            'email' => $user->email,
+            'password' => 'password'
+        ])
+            ->assertForbidden()
+            ->assertJson(['message' => __('auth.unverified')]);
     }
 
     /**

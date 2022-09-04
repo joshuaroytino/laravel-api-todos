@@ -13,9 +13,7 @@ class TokenController extends Controller
     {
         if (! \Auth::attempt($request->safe()->only('email', 'password'))) {
             return response()->json([
-                'data' => [
-                    'message' => 'Invalid credentials',
-                ],
+                'message' => __('auth.failed'),
             ], Response::HTTP_UNAUTHORIZED);
         }
 
