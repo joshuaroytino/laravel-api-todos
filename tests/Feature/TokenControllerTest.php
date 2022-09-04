@@ -51,7 +51,7 @@ class TokenControllerTest extends TestCase
 
         $this->postJson(route('token'), [
             'email' => $user->email,
-            'password' => 'password'
+            'password' => 'password',
         ])
             ->assertForbidden()
             ->assertJson(['message' => __('auth.unverified')]);
