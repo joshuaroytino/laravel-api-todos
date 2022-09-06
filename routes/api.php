@@ -3,6 +3,7 @@
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MarkTodoController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ResendVerifyEmailController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UnMarkTodoController;
@@ -31,7 +32,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 Route::post('token', TokenController::class)
     ->middleware('login_verification')
     ->name('token');
-Route::post('logout', LogoutController::class)->name('logout')->middleware('auth:sanctum');
+Route::post('logout', LogoutController::class)
+    ->middleware('auth:sanctum')
+    ->name('logout');
 
 Route::post('register', RegisterController::class)->name('register');
 Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)->name('verification.verify');
+Route::post('email/verification-notification', ResendVerifyEmailController::class)
+    ->middleware('throttle:6,1')
+    ->name('verification.send');
