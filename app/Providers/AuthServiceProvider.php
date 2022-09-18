@@ -7,6 +7,7 @@ use App\Models\Todo;
 use App\Models\User;
 use App\Policies\TodoPolicy;
 use Carbon\Carbon;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\URL;
@@ -57,6 +58,14 @@ class AuthServiceProvider extends ServiceProvider
                 http_build_query([
                     'expires' => $params['expires'],
                     'signature' => $signature,
+                ]);
+        });
+
+        ResetPassword::createUrlUsing(function ($user, string $token) {
+            return config('frontend.url').
+                '/auth/reset-password?'.
+                http_build_query([
+                    'token' => $token,
                 ]);
         });
     }

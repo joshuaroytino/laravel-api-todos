@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\auth\ForgotPasswordController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MarkTodoController;
 use App\Http\Controllers\RegisterController;
@@ -41,3 +42,7 @@ Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)->name('veri
 Route::post('email/verification-notification', ResendVerifyEmailController::class)
     ->middleware('throttle:6,1')
     ->name('verification.send');
+
+Route::post('forgot-password', ForgotPasswordController::class)
+    ->middleware('throttle:6,1')
+    ->name('forgot.password');
