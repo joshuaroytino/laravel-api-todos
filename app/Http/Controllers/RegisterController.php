@@ -17,7 +17,7 @@ class RegisterController extends Controller
         event(new Registered($user));
 
         return response()->json([
-            'message' => 'Registration is successful and a verification email has been sent to your email. Please verify your account to be able to login.',
+            'message' => 'Registration is successful and a verification email has been sent to your inbox. Please verify your account to be able to login.',
         ]);
     }
 }

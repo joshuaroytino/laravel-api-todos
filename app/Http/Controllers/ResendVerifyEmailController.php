@@ -19,6 +19,6 @@ class ResendVerifyEmailController extends Controller
             $user->sendEmailVerificationNotification();
         }
 
-        return response()->json(['message' => 'If you have records in the system, an email verification has been sent to your inbox.']);
+        return response()->json(['message' => 'If you have records in the system, a verification email will be sent to your inbox.']);
     }
 }
