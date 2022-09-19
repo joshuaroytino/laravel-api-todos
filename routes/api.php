@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\auth\ForgotPasswordController;
+use App\Http\Controllers\auth\ResetPasswordController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MarkTodoController;
 use App\Http\Controllers\RegisterController;
@@ -46,3 +47,7 @@ Route::post('email/verification-notification', ResendVerifyEmailController::clas
 Route::post('forgot-password', ForgotPasswordController::class)
     ->middleware('throttle:6,1')
     ->name('forgot.password');
+
+Route::post('reset-password', ResetPasswordController::class)
+    ->middleware('throttle:6,1')
+    ->name('reset.password');
